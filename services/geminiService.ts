@@ -2,6 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { WeeklySchedule, DaySetting } from '../types';
 import { DAYS_OF_WEEK } from '../constants';
 
+// Fix: Updated API key retrieval to use `process.env.API_KEY` as required by the coding guidelines.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export async function generateWeeklySchedule(members: string[], daySettings: DaySetting[]): Promise<WeeklySchedule> {
@@ -107,7 +108,7 @@ export async function generateWeeklySchedule(members: string[], daySettings: Day
         if (errorMessage.includes("invalid format") || errorMessage.includes("non-json response")) {
             userFriendlyMessage = error.message;
         } else if (errorMessage.includes('api key not valid')) {
-            userFriendlyMessage = "The API key is invalid or not configured correctly. Please contact support.";
+            userFriendlyMessage = "The API key is invalid or not configured correctly. Please check your settings.";
         } else if (errorMessage.includes('quota') || errorMessage.includes('resource has been exhausted')) {
             userFriendlyMessage = "The API usage limit has been reached for the day. Please try again tomorrow.";
         } else if (errorMessage.includes('fetch') || (typeof navigator !== 'undefined' && !navigator.onLine)) {

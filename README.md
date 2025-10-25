@@ -1,4 +1,4 @@
-# Escala Semanal da Igreja
+# Escala Semanal da Igreja (Church Weekly Roster)
 
 Uma aplicação simples e eficiente para gerenciar e visualizar a escala de trabalho semanal de uma igreja. Permite que um administrador gerencie membros, defina os dias de culto e gere automaticamente uma escala justa e aleatória usando a API do Google Gemini. Os membros podem visualizar facilmente suas tarefas e receber notificações.
 
@@ -16,56 +16,101 @@ Uma aplicação simples e eficiente para gerenciar e visualizar a escala de trab
 
 - **React**
 - **TypeScript**
+- **Vite** (Ambiente de desenvolvimento e build)
 - **Google Gemini API** (`@google/genai`)
-- **TailwindCSS**
+- **TailwindCSS** (via CDN)
 - **Font Awesome**
 
-## Como Usar
+---
 
-### 1. Configuração do Administrador
-- Mude para a **"Visão de Administrador"**.
-- Vá para **"Gerenciar Membros"** para adicionar, editar ou remover participantes.
-- Em **"Configurar Dias da Semana"**, ative os dias que terão culto e nomeie o serviço (ex: "Reunião de Oração", "Celebração de Domingo").
-- Poste qualquer informação relevante na seção **"Avisos"**.
-- Clique em **"Gerar Nova Escala"** para que a IA crie a escala.
+## Guia de Instalação e Publicação
 
-### 2. Visão de Membro
-- Selecione seu nome na lista suspensa em **"Visualizando como:"**.
-- A escala será exibida, e quaisquer tarefas atribuídas a você serão destacadas.
-- Clique no sino de notificação para ver um resumo de suas tarefas para a semana.
+### 1. Desenvolvimento Local
 
-## Executando no Android (com Capacitor)
+Para executar o projeto em sua máquina local, siga estes passos.
 
-Esta aplicação pode ser empacotada como um aplicativo nativo para Android usando [Capacitor](https://capacitorjs.com/). Siga as instruções abaixo para configurar o projeto.
+**Pré-requisitos:**
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- `npm` ou `yarn`
 
-### Pré-requisitos
-- [Node.js](https://nodejs.org/) e npm instalados.
-- [Android Studio](https://developer.android.com/studio) instalado e configurado com um SDK do Android.
+**Passos:**
+1.  **Instale as dependências:**
+    Abra o terminal na pasta do projeto e execute:
+    ```bash
+    npm install
+    ```
 
-### Passos para a Configuração
-1. **Instale a CLI do Capacitor:**
-   Abra seu terminal e instale a interface de linha de comando do Capacitor globalmente:
-   ```bash
-   npm install -g @capacitor/cli
-   ```
-2. **Prepare os Ativos da Web:**
-   O Capacitor precisa de um diretório de onde carregar os arquivos da web. A configuração está definida para usar uma pasta chamada `dist`.
-   - Crie uma pasta chamada `dist` na raiz do projeto.
-   - Copie todos os arquivos e pastas da aplicação (como `index.html`, `index.tsx`, etc.) para dentro da pasta `dist`.
-3. **Adicione a Plataforma Android:**
-   No diretório raiz do projeto, execute o comando a seguir para criar o projeto nativo do Android:
-   ```bash
-   npx cap add android
-   ```
-4. **Sincronize as Alterações:**
-   Sempre que você modificar o código da web, precisará sincronizá-lo com o projeto nativo:
-   ```bash
-   npx cap sync android
-   ```
-5. **Abra no Android Studio:**
-   Para construir e rodar o aplicativo, abra o projeto no Android Studio:
-   ```bash
-   npx cap open android
-   ```
-6. **Compile e Execute:**
-   Dentro do Android Studio, use o botão 'Run' (▶️) para compilar e executar o aplicativo em um emulador ou dispositivo físico.
+2.  **Configure a Chave da API:**
+    Você precisará de uma chave da API do Google Gemini.
+    - Crie um arquivo chamado `.env` na raiz do projeto.
+    - Adicione sua chave da API a este arquivo da seguinte forma:
+      ```
+      VITE_GEMINI_API_KEY="SUA_CHAVE_API_AQUI"
+      ```
+
+3.  **Inicie o Servidor de Desenvolvimento:**
+    Execute o comando abaixo para iniciar o servidor do Vite:
+    ```bash
+    npm run dev
+    ```
+    A aplicação estará disponível em `http://localhost:5173`.
+
+### 2. Publicando no Netlify
+
+O Netlify oferece uma maneira simples e gratuita de publicar sites.
+
+**Pré-requisitos:**
+- Uma conta no [Netlify](https://www.netlify.com/).
+- Seu projeto em um repositório Git (GitHub, GitLab, Bitbucket).
+
+**Passos:**
+1.  **Faça o Push do seu Código:** Envie o código do projeto, incluindo os novos arquivos (`package.json`, `vite.config.ts`, etc.), para o seu repositório Git.
+
+2.  **Crie um Novo Site no Netlify:**
+    - No painel do Netlify, clique em **"Add new site"** -> **"Import an existing project"**.
+    - Conecte seu provedor Git e selecione o repositório do projeto.
+
+3.  **Configure as Definições de Build:**
+    O Netlify detectará que é um projeto Vite e preencherá a maioria dos campos. Confirme se as configurações estão assim:
+    - **Build command:** `npm run build`
+    - **Publish directory:** `dist`
+
+4.  **Adicione a Variável de Ambiente:**
+    Esta é a etapa mais importante para a API funcionar.
+    - Vá para **Site settings** -> **Build & deploy** -> **Environment**.
+    - Clique em **"Edit variables"** e adicione uma nova variável:
+      - **Key:** `VITE_GEMINI_API_KEY`
+      - **Value:** Cole a sua chave da API do Google Gemini aqui.
+
+5.  **Publique o Site:**
+    Clique em **"Deploy site"**. O Netlify irá compilar e publicar sua aplicação. Após alguns instantes, seu site estará no ar!
+
+### 3. Executando no Android (com Capacitor)
+
+Para empacotar a aplicação como um aplicativo nativo para Android, siga os passos abaixo.
+
+1.  **Faça o Build da Aplicação Web:**
+    Antes de sincronizar com o Capacitor, você precisa gerar a versão de produção dos seus arquivos da web.
+    ```bash
+    npm run build
+    ```
+    Isso criará a pasta `dist` com seu aplicativo otimizado.
+
+2.  **Adicione a Plataforma Android (se ainda não o fez):**
+    ```bash
+    npx cap add android
+    ```
+
+3.  **Sincronize as Alterações:**
+    Copie os ativos da web para o projeto nativo:
+    ```bash
+    npx cap sync android
+    ```
+
+4.  **Abra no Android Studio:**
+    ```bash
+    npx cap open android
+    ```
+
+5.  **Compile e Execute:**
+    Dentro do Android Studio, use o botão 'Run' (▶️) para compilar e executar o aplicativo em um emulador ou dispositivo físico.
