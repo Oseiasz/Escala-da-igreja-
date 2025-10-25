@@ -1,0 +1,23 @@
+{
+  "name": "Weekly Church Roster",
+  "short_name": "Church Roster",
+  "description": "An application to view the weekly church work roster, including services, ushers, and hymns, with notifications for scheduled members.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
