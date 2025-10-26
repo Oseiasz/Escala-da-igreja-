@@ -45,7 +45,7 @@ Para executar o projeto em sua máquina local, siga estes passos.
     - Crie um arquivo chamado `.env` na raiz do projeto.
     - Adicione sua chave da API a este arquivo da seguinte forma:
       ```
-      VITE_GEMINI_API_KEY="SUA_CHAVE_API_AQUI"
+      API_KEY="SUA_CHAVE_API_AQUI"
       ```
 
 3.  **Inicie o Servidor de Desenvolvimento:**
@@ -55,35 +55,36 @@ Para executar o projeto em sua máquina local, siga estes passos.
     ```
     A aplicação estará disponível em `http://localhost:5173`.
 
-### 2. Publicando no Netlify
+### 2. Publicando na Vercel
 
-O Netlify oferece uma maneira simples e gratuita de publicar sites.
+A Vercel oferece uma maneira simples e eficiente de publicar sites, com integração contínua a partir do seu repositório Git.
 
 **Pré-requisitos:**
-- Uma conta no [Netlify](https://www.netlify.com/).
+- Uma conta na [Vercel](https://vercel.com/).
 - Seu projeto em um repositório Git (GitHub, GitLab, Bitbucket).
 
 **Passos:**
-1.  **Faça o Push do seu Código:** Envie o código do projeto, incluindo os novos arquivos (`package.json`, `vite.config.ts`, etc.), para o seu repositório Git.
+1.  **Faça o Push do seu Código:** Envie o código do projeto para o seu repositório Git.
 
-2.  **Crie um Novo Site no Netlify:**
-    - No painel do Netlify, clique em **"Add new site"** -> **"Import an existing project"**.
+2.  **Crie um Novo Projeto na Vercel:**
+    - No painel da Vercel, clique em **"Add New..."** -> **"Project"**.
     - Conecte seu provedor Git e selecione o repositório do projeto.
 
-3.  **Configure as Definições de Build:**
-    O Netlify detectará que é um projeto Vite e preencherá a maioria dos campos. Confirme se as configurações estão assim:
-    - **Build command:** `npm run build`
-    - **Publish directory:** `dist`
+3.  **Configure o Projeto:**
+    A Vercel detectará automaticamente que é um projeto Vite e preencherá as configurações de build:
+    - **Framework Preset:** `Vite`
+    - **Build Command:** `npm run build`
+    - **Output Directory:** `dist`
 
 4.  **Adicione a Variável de Ambiente:**
     Esta é a etapa mais importante para a API funcionar.
-    - Vá para **Site settings** -> **Build & deploy** -> **Environment**.
-    - Clique em **"Edit variables"** e adicione uma nova variável:
-      - **Key:** `VITE_GEMINI_API_KEY`
+    - Na tela de configuração do projeto, vá para a aba **"Settings"** e depois para a seção **"Environment Variables"**.
+    - Adicione uma nova variável:
+      - **Name:** `API_KEY`
       - **Value:** Cole a sua chave da API do Google Gemini aqui.
 
 5.  **Publique o Site:**
-    Clique em **"Deploy site"**. O Netlify irá compilar e publicar sua aplicação. Após alguns instantes, seu site estará no ar!
+    Clique em **"Deploy"**. A Vercel irá compilar e publicar sua aplicação. Após a conclusão, seu site estará no ar!
 
 ### 3. Executando no Android (com Capacitor)
 
@@ -91,6 +92,9 @@ Para empacotar a aplicação como um aplicativo nativo para Android, siga os pas
 
 1.  **Faça o Build da Aplicação Web:**
     Antes de sincronizar com o Capacitor, você precisa gerar a versão de produção dos seus arquivos da web.
+    
+    **Importante:** Certifique-se de que seu arquivo `.env` com a `API_KEY` está presente na raiz do projeto antes de executar o comando de build. A chave será incluída no pacote do aplicativo.
+    
     ```bash
     npm run build
     ```
